@@ -16,6 +16,16 @@ const userRegister = async (req,res) => {
        const otp = "1234";
 
         const { userName , email, password  } = req.body;
+
+        if(!userName || !email || !password ){
+          return globalServices.global.returnResponse(
+            res,
+            400,
+            true,
+            'required fields are missing',
+            {}
+          );
+        }
  
         const oldUser = await model.user.findOne({ email });
 
@@ -135,7 +145,7 @@ const userLogin = async (req,res)=>{
         }
   
       } catch (err) {
-        res.status(500).send(error)
+        res.status(500).json(err)
       }
   
  }
@@ -197,7 +207,7 @@ const confirmEmailVerficationCode = async (req,res)=> {
       } else {
         return globalServices.global.returnResponse(
           res,
-          200,
+          400,
           false,
           'OTP not validate',
           {}

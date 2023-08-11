@@ -4,17 +4,16 @@ const authSchema = mongoose.Schema(
     {
            userName : {
             type : String,
-            // required : true
-            default : ""
+            required : [true, "UserName is required"]
+    
            },
            email: {
             type:String,
-            required:false,
-            unique:false,
+            required : [true, "email is required"]
            },
            password : {
             type : String,
-            // required : true,
+            required : [true, "password is required"]
            },
            otp : {
             type : Number
@@ -27,10 +26,10 @@ const authSchema = mongoose.Schema(
             type : Boolean,
             default : false,
            },
-        //    isAdmin : {
-        //     type : Boolean,
-        //     default : false,
-        //    },
+           companyCreated : {
+            type : Boolean,
+            default : false,
+           },
            tokenVersion : {
             type : Number,
             default : 0

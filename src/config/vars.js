@@ -10,7 +10,8 @@ module.exports = {
   mongo: {
     uri: process.env.MONGO_URI_LOCAL,
   },
-  tokenKey : process.env.TOKEN_KEY
+  tokenKey : process.env.TOKEN_KEY,
+  hostBaseUrl : process.env.Host_Base_Url,
  
 
 

@@ -13,9 +13,9 @@ const jwtMiddeware =  (req, res, next) => {
       
   
     if (err) return res.sendStatus(403);
-    req.user = user;
+    
     const userdata = await model.user.findOne({ _id : user.user_id });
-
+    req.user = user;
     if(userdata.tokenVersion == user.tokenVersion){
       console.log(user)
       next();

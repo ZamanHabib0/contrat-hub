@@ -6,69 +6,49 @@ const profileSchema = mongoose.Schema(
             type : String,
             default : "http://localhost:8080/image/file-1687951603350-974325287.jpg"
            },
-           fullName : {
-            type : String,
-            required : true,
-           },
-           bio : {
+           firstName : {
             type : String,
            },
-           age : {
-            type : Number
-           },
-          
-           gender : {
+           lastName : {
             type : String,
            },
-           phoneCode: {
-            type : Number,
-           },
-           PhoneNumber : {
-            type : Number,
+           phoneNumber : {
+            type : String,
            },
            userId : {
             type : mongoose.Schema.Types.ObjectId,
-            ref : "registeredUser"
+            ref : "user",
+            required : true
            },
-           address : [{
-            street: {
+           timeZone : {
+            type : String,
+           },
+           address : {
+            streetAdress: {
                 type: String,
-                required: true
+              },
+            streetAdressLine2: {
+                type: String,
               },
               city: {
                 type: String,
-                required: true
+
               },
               state: {
                 type: String,
-                required: true
+
               },
               country: {
                 type: String,
-                required: true
               },
-              postalCode: {
+              zip: {
                 type: String,
-                required: true
               },
-              addressType : {
-                type : String,
-                required: true
-              }
- 
- 
-            }],
-            favoriteProduct : [{
-              productId: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Product',
-              },
-              createdAt: {
-                type: Date,
-                default: Date.now
-              },
-            
-            }]
+              // addressType : {
+              //   type : String,
+              //   required: true
+              // }
+            },
         }
 );
 

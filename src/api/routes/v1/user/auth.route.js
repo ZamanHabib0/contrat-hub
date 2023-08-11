@@ -19,13 +19,7 @@ router.post("/forgetPassword" , userRegister.forgetPasswordSending);
 
 router.post("/reset-password" , userRegister.resetPassword);
 
-// router.post("/forgetPasswordverfingcode" , userRegister.forgetPasswordverfingcode);
-
-// router.put("/resetPassword" , userRegister.resetPassword)
-
 // router.delete("/deleteUser" , jsonTokenValidtor, userRegister.deleteUser)
 
-
-// router.put("/addToFavourite" ,jsonTokenValidtor, userRegister.favouriteItems)
 
 module.exports = router
