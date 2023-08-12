@@ -26,6 +26,10 @@ const authSchema = mongoose.Schema(
             type : Boolean,
             default : false,
            },
+           isadmin : {
+            type : Boolean,
+            default : false,
+           },
            companyCreated : {
             type : Boolean,
             default : false,
