@@ -11,9 +11,9 @@ const { tokenKey } = require('../../../config/vars');
 const userRegister = async (req,res) => {
     try{
 
-      const TokenVersion = Math.floor(100000 + Math.random() * 900000);
-      // const otp = Math.floor(100000 + Math.random() * 900000);
-       const otp = "1234";
+      // const TokenVersion = Math.floor(100000 + Math.random() * 900000);
+      const otp = Math.floor(100000 + Math.random() * 900000);
+      //  const otp = "1234";
 
         const { userName , email, password  } = req.body;
 
@@ -63,11 +63,11 @@ const userRegister = async (req,res) => {
           };
 
 
-//      nodemailer.sendConfirmationEmail(
-//       userName,
-//         email,
-//         EmailVerfcationCode
-//  );
+     nodemailer.sendConfirmationEmail(
+      userName,
+        email,
+        otp
+ );
 
    return globalServices.global.returnResponse(
     res,
@@ -222,8 +222,8 @@ const confirmEmailVerficationCode = async (req,res)=> {
 const forgetPasswordSending = async (req,res)=> {
   const { email } = req.body;
   try {
-    // const otp = Math.floor(100000 + Math.random() * 900000);
-    const otp  = "1234"
+    const otp = Math.floor(100000 + Math.random() * 900000);
+    // const otp  = "1234"
 
   
     if(!email) {
@@ -241,6 +241,12 @@ const forgetPasswordSending = async (req,res)=> {
 
     if (user) {
       user.otp = otp;
+
+      nodemailer.sendConfirmationEmail(
+        user.userName,
+        user.email,
+          otp
+   );
 
      await user.save();
 
@@ -278,12 +284,19 @@ const forgetPasswordSending = async (req,res)=> {
 const resendOtp = async (req, res) => {
   try {
     const { userId } = req.body;
-    // const otp = randomstring.generate({ length: 4, charset: 'numeric' });
-    const otp = '1234';
+    const otp = Math.floor(100000 + Math.random() * 900000);
+    // const otp = '1234';
     const user = await model.user.findOneAndUpdate(
       { _id: userId },
       { $set: { otp: otp, isActive: false } }
     );
+
+    nodemailer.sendConfirmationEmail(
+      user.userName,
+      user.email,
+        otp
+ );
+
 
     if (!user) {
       return globalServices.global.returnResponse(

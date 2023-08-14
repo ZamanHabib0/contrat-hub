@@ -13,7 +13,7 @@ router.put('/update-template', jsonTokenValidtor,controller.updateTemplate)
 
 router.delete('/delete-template', jsonTokenValidtor ,controller.deleteTemplate)
 
-// router.get('/get-profile', jsonTokenValidtor, controller.getProfile)
+router.get('/get-template', controller.getTemplate)
 
 router.post('/upload-template', templateUploader , controller.uploadForm)
 

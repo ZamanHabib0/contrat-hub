@@ -6,6 +6,10 @@ const profileSchema = mongoose.Schema(
             type : String,
             default : "http://localhost:8080/image/file-1687951603350-974325287.jpg"
            },
+           signature : {
+            type : String,
+            default : ""
+           },
            firstName : {
             type : String,
            },

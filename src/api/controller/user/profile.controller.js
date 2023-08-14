@@ -9,7 +9,7 @@ const validator = require('validator');
 
 const createProfile = async (req, res) => {
     try {
-      const { profileImage , firstName , lastName  , phoneNumber ,  address ,timeZone } = req.body;
+      const { profileImage , firstName , lastName  , phoneNumber ,  address, signature ,timeZone } = req.body;
       let  userId = req.user.user_id
       console.log("address" + address)
 
@@ -51,6 +51,7 @@ const createProfile = async (req, res) => {
 
         let profile = await model.userProfile.create({
                 profileImage: profileImage,
+                signature : signature,
                 firstName: firstName,
                 lastName: lastName ,
                 phoneNumber: phoneNumber,
@@ -170,7 +171,8 @@ const getProfile = async (req, res) => {
           phoneNumber : profile.phoneNumber,
           userId: profile.userId,
           timeZone : profile.timeZone,
-          address : profile.address
+          address : profile.address,
+          signature : profile.signature
         }
 
       if (!profile) {
@@ -236,9 +238,41 @@ const uploadPic = async (req,res)=> {
 
 }
 
+const uploadSignature = async (req,res)=> {
+     
+  try {
+   
+   const signaturePath = req.signaturePath;
+ 
+   if(!signaturePath) {
+     return globalServices.global.returnResponse(
+       res,
+       400,
+       false,
+       "due to some error signature not uploaded",
+       {}
+     )
+   }
+ 
+   return globalServices.global.returnResponse(
+     res,
+     200,
+     false,
+     "your signature url is",
+     {signaturePath}
+   )
+ 
+  } catch (error) {
+   res.status(500).json(error)
+  }
+ 
+ 
+ }
+
 module.exports = {
     createProfile,
     updateProfile,
     getProfile,
-    uploadPic
+    uploadPic,
+    uploadSignature
 }

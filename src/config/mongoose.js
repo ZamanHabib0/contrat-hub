@@ -22,7 +22,7 @@ if (env === 'development') {
 */
 exports.connect = () => {
     try{
-        mongoose.connect(mongo.uri, {
+        mongoose.connect( "mongodb+srv://admin:o0eEzpd3kIesAp8Q@cluster0.epczlws.mongodb.net/", {
             useNewUrlParser: true,
             // useCreateIndex: true,
             // useFindAndModify: false,

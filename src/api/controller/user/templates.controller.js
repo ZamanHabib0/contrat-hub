@@ -5,9 +5,7 @@ const { hostBaseUrl } = require("../../../config/vars")
 const validator = require('validator');
 const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
 const fs = require("fs");
-
-
-
+const Models = require('../../model/index');
 
 
 const createTemplate = async (req, res) => {
@@ -178,6 +176,39 @@ const deleteTemplate = async(req,res) => {
     //   }
 }
 
+const getTemplate = async (req,res)=> {
+
+  try {
+
+    let result = await Models.template.find({});
+     
+
+
+   if(!result) {
+     return globalServices.global.returnResponse(
+       res,
+       400,
+       false,
+       "no template founds",
+       {}
+     )
+   }
+ 
+   return globalServices.global.returnResponse(
+     res,
+     200,
+     false,
+     "templates are given below",
+     result
+   )
+ 
+  } catch (error) {
+   res.status(500).json(error)
+  }
+ 
+ 
+ }
+
 const uploadForm = async (req,res)=> {
 
      
@@ -212,11 +243,14 @@ const uploadForm = async (req,res)=> {
  }
 
 
+ 
+
 
 module.exports = {
     createTemplate,
     uploadForm,
     updateTemplate,
-    deleteTemplate
+    deleteTemplate,
+    getTemplate
 
 }
