@@ -8,9 +8,9 @@ const formUploader = require('../../../middlewears/pdfUploader');
 
 
 
-router.post('/create-contract', jsonTokenValidtor ,controller.createContract)
+router.post('/create-contract', jsonTokenValidtor ,controller.createContact)
 
-router.post('/upload-form', formUploader, controller.uploadForm)
+router.post('/send-contract', controller.sendContact)
 
 // router.put('/update-company-detail/:companyId', jsonTokenValidtor,controller.updateCompanyDetail)
 

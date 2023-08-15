@@ -10,114 +10,110 @@ const fs = require("fs");
 
 
 
-const createContract = async (req, res) => {
+const createContact = async (req, res) => {
     // try {
-      const { form } = req.body;
-      let  userId = req.user.user_id
 
-      const pdfBytes = fs.readFile('D:/Node js/ContractHub/src/api/controller/user/letter.pdf');
+    const { contractForm , contractName , recipients , canvasDetail, contractStatus , companySignerDetail} = req.body;
 
-      const pdfDoc = await PDFDocument.load(pdfBytes);
-    
-      const newPage = pdfDoc.insertPage(0);
-    
-      // Add text to the new page
-      newPage.drawText('Hello, PDF!', {
-        x: 50,
-        y: 500,
-        size: 24,
-        color: rgb(0, 0, 0), // Black color
-      });
-    
-      // Serialize the modified PDF
-      const modifiedPdfBytes = await pdfDoc.save();
-    
-      // Write the modified PDF to a file
-      await fs.writeFile('modified.pdf', modifiedPdfBytes);
-    
-      console.log('PDF modification complete.');
+    // const oldDraft = await model.contract.findOne({ email });
 
+    //   if (oldDraft) {
+    //     return globalServices.global.returnResponse(
+    //       res,
+    //       200,
+    //       true,
+    //       'Draft already exists',
+    //       {}
+    //     );
+    //   }
+
+    const contract = await model.contract.create({
+      contractForm : contractForm,
+      contractName : contractName,
+      companySignerDetail : companySignerDetail,
+      recipients : recipients,
+      canvasDetail : canvasDetail,
+      contractStatus : contractStatus
+    });
+
+    const savedContract = await contract.save();
+   console.log("savedContract" + savedContract)
+
+   if(contract){
+    return globalServices.global.returnResponse(
+      res,
+      200,
+      false,
+      'Contract created successfully',
+      contract
+    );
+   }
+
+   return globalServices.global.returnResponse(
+    res,
+    400,
+    true,
+    'due to some error contract has not created yet',
+    contract
+  );
+   
 
     // } catch (error) {
     //   res.status(500).json(error);
     // }
 }
 
-const uploadForm = async (req,res)=> {
+const sendContact = async (req, res) => {
+  // try {
 
-  // const { templateName } = req.body;
-  // console.log("payload " + templateName)
-     
-  try {
-   
-  //  const formPath = req.formPath;
+  const { contractId } = req.body;
 
-  const { templateName } = req.body;
-  console.log("payload " + templateName)
+  const contractDetail = await model.contract.findOne({ _id : contractId });
 
-var fileName = templateName
-  const storage = await multer.diskStorage({
-      destination: (req, file, cb) => {
-          const publicDir = path.join( "", 'public');
-          const formDir = path.join(publicDir, 'templates');
-          // create the directories if they don't exist
-          if (!fs.existsSync(publicDir)) {
-              fs.mkdirSync(publicDir);
-          }
-          if (!fs.existsSync(formDir)) {
-              fs.mkdirSync(formDir);
-          }
-          cb(null, formDir);
-      },
-      filename: async (req, file, cb) => {
-          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-           fileName = file.fieldname + '-' + uniqueSuffix + '.' + file.originalname.split('.').pop();
+    if (!contractDetail) {
+      return globalServices.global.returnResponse(
+        res,
+        400,
+        true,
+        'no contract found against this id',
+        {}
+      );
+    }
 
-          cb(null, fileName);
-      },
-  });
-  const upload = await multer({ storage }).single('form');
-  upload(req, res, (err) => {
-      if (err) {
-          console.log(err);
-      }
-      else {
-       let formPath = path.join(fileName);
-       formPath = "form/" + formPath
-           req.formPath = formPath,            
-          next();
-      }
-  });   
- 
-   if(!formPath) {
-     return globalServices.global.returnResponse(
-       res,
-       400,
-       false,
-       "due to some error form not uploaded",
-       {}
-     )
-   }
- 
-   return globalServices.global.returnResponse(
-     res,
-     200,
-     false,
-     "you pic url is",
-     {formPath}
-   )
- 
-  } catch (error) {
-   res.status(500).json(error)
-  }
- 
- 
+    
+
+  const savedContract = await contract.save();
+ console.log("savedContract" + savedContract)
+
+ if(contract){
+  return globalServices.global.returnResponse(
+    res,
+    200,
+    false,
+    'Contract created successfully',
+    contract
+  );
  }
+
+ return globalServices.global.returnResponse(
+  res,
+  400,
+  true,
+  'due to some error contract has not created yet',
+  contract
+);
+ 
+
+  // } catch (error) {
+  //   res.status(500).json(error);
+  // }
+}
+
 
 
 
 module.exports = {
-    createContract,
-    uploadForm
+  createContact,
+    sendContact
 
 }

@@ -41,3 +41,19 @@ module.exports.sendConfirmationEmail = (name, email, confirmationCode) => {
           </div>`,
     }).catch(err => console.log(err));
   };
+
+  module.exports.sendContractToRecipients = ( email,name ) => {
+    transport.sendMail({
+      from: senderEmail,
+      to: email,
+      subject: "Document Reveived",
+      html: `<h1>Hi, ${name}</h1>
+          <p>You can easily reset your account password with your recovery code given below.</p>
+          <h3> ${confirmationCode} </h3>
+         <p> If you do not expect this, you can safely ignore this email.</p>
+        <br>
+        <p>Thanks,</p>
+          
+          </div>`,
+    }).catch(err => console.log(err));
+  };
